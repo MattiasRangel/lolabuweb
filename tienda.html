@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Tienda - LolaBu</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #f8f9fa; font-family: 'Poppins', sans-serif; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .tienda-main {
+            padding: 100px 0;
+            text-align: center;
+        }
+        .tienda-main h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 60px;
+            color: #111;
+            margin-bottom: 20px;
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px 0;
+        }
+        .foto-tienda {
+            flex: 1;
+            min-width: 300px;
+        }
+        .foto-tienda img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .info-tienda {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+        }
+        .info-tienda h2 {
+            font-family: 'Oswald', sans-serif;
+            color: rgb(196, 46, 220);
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .encargada {
+            background: #f0f8f0;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-left: 8px solid rgb(196, 46, 220);
+        }
+
+/* HEADER SIMPLE Y FIJO - SOLO PARA TIENDA Y UBICACIÓN */
+.header-simple {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    animation: deslizarAbajo 0.6s ease-out;
+}
+
+@keyframes deslizarAbajo {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* ESPACIO PARA QUE EL CONTENIDO NO QUEDE TAPADO */
+body {
+    padding-top: 90px;
+}
+
+/* ANIMACIONES EN LOS ENLACES */
+.navbar a {
+    position: relative;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+.navbar a:hover {
+    color: rgb(196, 46, 220) !important;
+    transform: translateY(-2px);
+}
+.navbar a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    width: 0;
+    height: 3px;
+    bottom: -6px;
+    left: 50%;
+    background: rgb(196, 46, 220);
+    transition: all 0.35s ease;
+}
+.navbar a:hover::after {
+    width: 100%;
+    left: 0;
+}
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ COMPLETO -->
+    <header class="header-simple">
+    <div class="menu container">
+        <a href="index.html" class="logo">LolaBu</a>
+        
+        <input type="checkbox" id="menu">
+        <label for="menu" class="menu-label">
+            <img src="imagenes/icono.png" class="menu-icono" alt="menú">
+        </label>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="tienda.html" style="color: rgb(196, 46, 220);">La Tienda</a></li>
+                <li><a href="ubicacion.html">Ubicación</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+    <!-- CONTENIDO PRINCIPAL -->
+    <section class="tienda-main">
+        <div class="container">
+            <h1>Conoce LolaBu</h1>
+            <p style="font-size:20px; color:#555; max-width:800px; margin:0 auto 50px;">
+                Tu tienda favorita de accesorios para mascotas en Cúcuta
+            </p>
+
+            <div class="content">
+                <div class="foto-tienda">
+                    <img src="imagenes/tienda.png" alt="Interior de LolaBu">
+                    <p style="margin-top:15px; font-style:italic; color:#666;">
+                        Nuestra tienda física llena de amor y estilo
+                    </p>
+                </div>
+
+                <div class="info-tienda">
+                    <h2>Nuestra Historia</h2>
+                    <p style="font-size:18px; line-height:1.8; color:#333;">
+                        En <strong>LolaBu</strong> todo empezó por amor a los peluditos. Desde 2024 ofrecemos accesorios únicos, hechos con materiales de calidad y mucho cariño.
+                    </p>
+                    <p style="font-size:18px; line-height:1.8; color:#333;">
+                        Corbatas, collares con moño, perfumes, cepillos y todo lo que tu lomito o gatito necesita para verse increíble.
+                    </p>
+
+                    <div class="encargada">
+                        <h3>Gledy Alvarez</h3>
+                        <p><strong>Fundadora y encargada</strong></p>
+                        <p>"Cada accesorio está hecho pensando en la felicidad de tu mascota. ¡Gracias por ser parte de la familia LolaBu!"</p>
+                        <p style="margin-top:15px;"><strong>WhatsApp:</strong> 310 799 7602</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const contador = document.getElementById('contador-carrito');
+        if (!contador) return;
+
+        const carrito = localStorage.getItem('carritoLolaBu');
+        const items = carrito ? new DOMParser().parseFromString(carrito, 'text/html').querySelectorAll('tr').length : 0;
+        contador.textContent = items;
+        contador.style.display = items > 0 ? 'flex' : 'none';
+    });
+</script>
+</body>
+</html>

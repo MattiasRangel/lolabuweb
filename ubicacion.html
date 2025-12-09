@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubicación - LolaBu</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #f8f9fa; font-family: 'Poppins', sans-serif; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        .ubicacion-main {
+            padding: 100px 0;
+            text-align: center;
+        }
+        .ubicacion-main h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 60px;
+            color: #111;
+            margin-bottom: 50px;
+        }
+        .mapa {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            margin-bottom: 50px;
+        }
+        .info {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .info h2 {
+            color: rgb(196, 46, 220);
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .direccion {
+            font-size: 24px;
+            color: #111;
+            margin: 25px 0;
+            line-height: 1.6;
+        }
+        .horario {
+            background: #f0f8f0;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        /* HEADER SIMPLE Y FIJO - SOLO PARA TIENDA Y UBICACIÓN */
+.header-simple {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    animation: deslizarAbajo 0.6s ease-out;
+}
+
+@keyframes deslizarAbajo {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* ESPACIO PARA QUE EL CONTENIDO NO QUEDE TAPADO */
+body {
+    padding-top: 90px;
+}
+
+/* ANIMACIONES EN LOS ENLACES */
+.navbar a {
+    position: relative;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+.navbar a:hover {
+    color: rgb(196, 46, 220) !important;
+    transform: translateY(-2px);
+}
+.navbar a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    width: 0;
+    height: 3px;
+    bottom: -6px;
+    left: 50%;
+    background: rgb(196, 46, 220);
+    transition: all 0.35s ease;
+}
+.navbar a:hover::after {
+    width: 100%;
+    left: 0;
+}
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ -->
+    <header class="header-simple">
+    <div class="menu container">
+        <a href="index.html" class="logo">LolaBu</a>
+        
+        <input type="checkbox" id="menu">
+        <label for="menu" class="menu-label">
+            <img src="imagenes/icono.png" class="menu-icono" alt="menú">
+        </label>
+
+        <nav class="navbar">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="tienda.html">La Tienda</a></li>
+                <li><a href="ubicacion.html" style="color: rgb(196, 46, 220);">Ubicación</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+    <!-- CONTENIDO -->
+    <section class="ubicacion-main">
+        <div class="container">
+            <h1>¿Dónde estamos?</h1>
+
+            <div class="mapa">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d247.01874999574153!2d-72.47606721184326!3d7.863640975040167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zN8KwNTEnNDkuMyJOIDcywrAyOCczMy40Ilc!5e0!3m2!1ses-419!2sco!4v1765230180891!5m2!1ses-419!2sco" 
+                    width="100%" 
+                    height="500" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+
+            <div class="info">
+                <h2>LolaBu - Tienda Física</h2>
+                <div class="direccion">
+                    <strong>Calle 10c con carrera 3 local 3 trapiches</strong><br>
+                    Frente a la heladería Amoralí<br>
+                    Villa del Rosario, Norte de Santander
+                </div>
+
+                <div class="horario">
+                    <strong>Horarios:</strong><br>
+                    Lunes a Domingo: 8:00 am - 12:30 pm <br>
+                    3:00 pm - 8:30 pm <br>
+                    Los festivos no abrimos
+                </div>
+
+                <p style="margin-top:30px; font-size:20px;">
+                    ¡Ven a visitarnos! Tenemos café y muchas caricias para tu peludito
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    
+</script>
+</body>
+</html>

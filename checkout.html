@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - LolaBu</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    body { background: #f8f9fa; font-family: 'Poppins', sans-serif; }
+    .container { max-width: 700px; margin: 30px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #111; font-family: 'Oswald'; margin-bottom: 30px; }
+    input, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+    button { background: #28a745; color: white; padding: 18px; border: none; border-radius: 12px; font-size: 20px; cursor: pointer; width: 100%; margin-top: 20px; }
+    button:hover { background: #218838; }
+
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th { 
+        background: #111 !important; 
+        color: white !important; 
+        padding: 15px 10px; 
+        text-align: left; 
+    }
+    td { 
+        padding: 15px 10px; 
+        vertical-align: middle; 
+        color: #333 !important; /* ← Esto arregla el texto blanco */
+        font-size: 16px;
+    }
+    td img { 
+        width: 80px; 
+        height: 80px; 
+        border-radius: 10px; 
+        object-fit: cover; 
+        float: left; 
+        margin-right: 15px; 
+    }
+    .nombre-producto { 
+        font-weight: 600; 
+        color: #111; 
+        margin-top: 8px; 
+        display: block; 
+    }
+    .precio { 
+        font-weight: bold; 
+        color: #28a745; 
+        font-size: 18px; 
+        text-align: right; 
+    }
+    #total { 
+        text-align: right; 
+        font-size: 26px; 
+        color: #28a745; 
+        font-weight: bold; 
+        margin: 30px 0; 
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>LolaBu - Confirmar Pedido</h1>
+
+        <h2>Tus productos</h2>
+        <table id="tabla-carrito">
+            <thead>
+                <tr><th>Producto</th><th>Precio</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div id="total"></div>
+
+        <form id="form-checkout">
+            <h2>Datos del cliente</h2>
+            <input type="text" id="nombre" placeholder="Nombre completo" required>
+            <input type="tel" id="telefono" placeholder="Teléfono WhatsApp (310...)" required>
+
+            <h2>Entrega</h2>
+            <label><input type="radio" name="entrega" value="retiro" checked> Retiro en tienda (gratis)</label><br><br>
+            <label><input type="radio" name="entrega" value="domicilio"> Envío a domicilio (+$8.000)</label>
+
+            <div id="direccion" style="display:none; margin-top:15px;">
+                <input type="text" id="dir" placeholder="Dirección completa">
+                <input type="text" id="barrio" placeholder="Barrio">
+                <textarea id="notas" placeholder="Notas (puerta, apto, horario...)"></textarea>
+            </div>
+
+            <button type="submit">Enviar Pedido por WhatsApp</button>
+        </form>
+    </div>
+
+    <script>
+    const tbody = document.querySelector('#tabla-carrito tbody');
+    tbody.innerHTML = localStorage.getItem('carritoLolaBu') || '';
+
+    // 1. Guardamos los precios originales
+    let preciosOriginales = [];
+    document.querySelectorAll('#tabla-carrito tbody tr').forEach(row => {
+        const precioTexto = row.cells[2]?.textContent.trim() || '0';
+        const precio = parseInt(precioTexto.replace(/[^0-9]/g, '')) || 0;
+        preciosOriginales.push(precio);
+    });
+
+    // 2. Arreglamos la vista visual
+    document.querySelectorAll('#tabla-carrito tbody tr').forEach((row, index) => {
+        const img = row.cells[0].querySelector('img');
+        const nombre = row.cells[1].textContent.trim();
+        const precioOriginal = row.cells[2].textContent.trim();
+
+        row.innerHTML = `
+            <td>
+                <img src="${img.src}" style="width:80px;height:80px;border-radius:10px;object-fit:cover;float:left;margin-right:15px;">
+                <div class="nombre-prod" style="font-weight:600;color:#111;margin-top:10px;">${nombre}</div>
+            </td>
+            <td style="text-align:right;font-weight:bold;color:#28a745;font-size:18px;">${precioOriginal}</td>
+        `;
+    });
+
+    // 3. Función de cálculo
+    function calcularTotal() {
+        let totalProductos = preciosOriginales.reduce((sum, precio) => sum + precio, 0);
+        // Detectamos si el radio button de domicilio está marcado
+        const esEnvio = document.querySelector('input[name="entrega"][value="domicilio"]').checked;
+        
+        const textoEntrega = esEnvio ? ' (Envío +$8.000)' : ' (Retiro en tienda)';
+        const totalFinal = esEnvio ? totalProductos  : totalProductos;
+
+        document.getElementById('total').innerHTML = `
+            <strong style="font-size:26px;color:#28a745;">
+                Total a pagar: $${totalFinal.toLocaleString()} COP${textoEntrega}
+            </strong>
+        `;
+
+        return { productos: totalProductos, envio: esEnvio ? 8000 : 0 };
+    }
+
+    // Inicializar
+    calcularTotal();
+
+    // 4. Listener para mostrar/ocultar dirección
+    document.querySelectorAll('input[name="entrega"]').forEach(r => {
+        r.addEventListener('change', () => {
+            const esDomicilio = r.value === 'domicilio';
+            document.getElementById('direccion').style.display = esDomicilio ? 'block' : 'none';
+            calcularTotal();
+        });
+    });
+
+    // 5. ENVIAR A WHATSAPP (CORREGIDO)
+    document.getElementById('form-checkout').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Datos básicos
+        const nombre = document.getElementById('nombre').value.trim();
+        const tel = document.getElementById('telefono').value.trim();
+        
+        if (!nombre || !tel) return alert('Por favor completa tu nombre y teléfono');
+
+        // Verificar entrega
+        const opcionEntrega = document.querySelector('input[name="entrega"]:checked').value;
+        const dir = document.getElementById('dir').value.trim();
+        const barrio = document.getElementById('barrio').value.trim();
+        const notas = document.getElementById('notas').value.trim();
+
+        // VALIDACIÓN IMPORTANTE: Si es domicilio, obligar a llenar dirección
+        if (opcionEntrega === 'domicilio') {
+            if (!dir || !barrio) {
+                return alert('Para envíos a domicilio, la Dirección y el Barrio son obligatorios.');
+            }
+        }
+
+        // Calcular totales
+        const { productos, envio } = calcularTotal();
+        const totalFinal = productos + envio;
+
+        // Construir Mensaje (Usamos \n para saltos de línea, es más limpio)
+        let mensaje = `*¡NUEVO PEDIDO LOLA BU!*\n\n`;
+        mensaje += `*Cliente:* ${nombre}\n`;
+        mensaje += `*WhatsApp:* ${tel}\n`;
+        mensaje += `*Entrega:* ${opcionEntrega === 'domicilio' ? 'Domicilio (+$8.000)' : 'Retiro en tienda física'}\n`;
+
+        if (opcionEntrega === 'domicilio') {
+            mensaje += `*Dirección:* ${dir}\n`;
+            mensaje += `*Barrio:* ${barrio}\n`;
+            if (notas) mensaje += `*Notas:* ${notas}\n`;
+        }
+
+        mensaje += `\n*Productos:*\n`;
+        
+        document.querySelectorAll('#tabla-carrito tbody tr').forEach(tr => {
+            const nombreProd = tr.querySelector('.nombre-prod').textContent.trim();
+            const precioProd = tr.cells[1].textContent.trim();
+            mensaje += `• ${nombreProd} - ${precioProd}\n`;
+        });
+
+        mensaje += `\n*Total a pagar: $${totalFinal.toLocaleString()} COP*`;
+        
+        if (envio > 0) {
+            mensaje += ` (Productos + $8.000 envío)`;
+        }
+
+        // 6. ENVIAR (Usamos encodeURIComponent para que el # de la dirección no rompa el link)
+        const numero = "3125378801"; 
+        const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+        
+        window.open(url, '_blank');
+
+        setTimeout(() => {
+            // Opcional: Limpiar carrito
+            localStorage.removeItem('carritoLolaBu');
+            window.location.href = 'gracias.html';
+        }, 2000);
+    });
+</script>
+</body>
+</html>

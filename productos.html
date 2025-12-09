@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - LolaBu</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .header-fijo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        body {
+            padding-top: 100px;
+            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        h1 {
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 60px;
+            color: #111;
+            margin: 60px 0 20px;
+        }
+
+        .seccion-titulo {
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 50px;
+            color: rgb(196, 46, 220);
+            margin: 80px 0 40px;
+            position: relative;
+        }
+        .seccion-titulo::after {
+            content: '';
+            width: 150px;
+            height: 5px;
+            background: rgb(196, 46, 220);
+            display: block;
+            margin: 15px auto;
+            border-radius: 3px;
+        }
+
+        .products-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .product {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        .product.show { 
+            animation: aparecer 0.8s ease-out forwards; 
+        }
+        @keyframes aparecer {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .product:hover {
+            transform: translateY(-20px);
+            box-shadow: 0 30px 60px rgba(196,46,220,0.3);
+        }
+
+        .product img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .product h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            color: #111;
+            margin: 15px 0;
+        }
+
+        .product .precio {
+            font-size: 28px;
+            font-weight: bold;
+            color: rgb(196, 46, 220);
+            margin: 15px 0;
+        }
+
+        .btn-2 {
+            background: #111;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.4s ease;
+        }
+        .btn-2:hover {
+            background: rgb(196, 46, 220);
+            transform: scale(1.1);
+        }
+
+        /* Enlaces menú */
+        .navbar a:hover {
+            color: rgb(196, 46, 220) !important;
+        }
+        .navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background: rgb(196, 46, 220);
+            bottom: -6px;
+            left: 50%;
+            transition: 0.4s;
+        }
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER PEQUEÑO Y FIJO -->
+    <header class="header-fijo">
+        <div class="menu container">
+            <a href="index.html" class="logo">LolaBu</a>
+            <input type="checkbox" id="menu">
+            <label for="menu" class="menu-label">
+                <img src="imagenes/icono.png" class="menu-icono" alt="menú">
+            </label>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="productos.html" style="color:rgb(196,46,220);font-weight:bold;">Productos</a></li>
+                    <li><a href="tienda.html">La Tienda</a></li>
+                    <li><a href="ubicacion.html">Ubicación</a></li>
+                </ul>
+            </nav>
+
+            <div>
+                <ul>
+                    <li class="submenu">
+                        <img src="imagenes/carrito.svg" alt="carrito" class="img-carrito">
+                        <!-- QUITÉ EL CONTADOR -->
+                        <div id="carrito">
+                            <table id="lista-carrito">
+                                <thead>
+                                    <tr><th>Imagen</th><th>Nombre</th><th>Precio</th><th></th></tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div style="text-align:center;margin-top:15px;">
+                                <a href="#" id="vaciar-carrito" class="btn-2">Vaciar</a>
+                                <a href="#" id="confirmar-pedido" class="btn-2" style="background:rgb(196,46,220);color:white;margin-left:10px;">Confirmar Pedido</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" id="lista-1">
+
+        <!-- ACCESORIOS -->
+        <div class="seccion-titulo" id="accesorios">Accesorios</div>
+        <div class="products-content">
+            <div class="product"><img src="imagenes/1.png"><h3>Corbata Elegante</h3><p>Para eventos especiales</p><p class="precio">$12.000</p><a href="#" class="agregar-carrito btn-2" data-id="1">Agregar</a></div>
+            <div class="product"><img src="imagenes/2.png"><h3>Collar con Moño</h3><p>Diseño único</p><p class="precio">$22.000</p><a href="#" class="agregar-carrito btn-2" data-id="2">Agregar</a></div>
+            <div class="product"><img src="imagenes/3.png"><h3>Gancho Floral</h3><p>Colores variados</p><p class="precio">$6.000</p><a href="#" class="agregar-carrito btn-2" data-id="3">Agregar</a></div>
+            <div class="product"><img src="imagenes/correareflec.jpeg"><h3>Correa Reflectiva</h3><p>Seguridad nocturna</p><p class="precio">$35.000</p><a href="#" class="agregar-carrito btn-2" data-id="4">Agregar</a></div>
+            <div class="product"><img src="imagenes/5.png"><h3>Pañoleta Personalizada</h3><p>Con nombre</p><p class="precio">$18.000</p><a href="#" class="agregar-carrito btn-2" data-id="5">Agregar</a></div>
+            <div class="product"><img src="imagenes/12.png"><h3>plato de comida</h3><p>Util para cachorros medianos</p><p class="precio">$15.000</p><a href="#" class="agregar-carrito btn-2" data-id="6">Agregar</a></div>
+            <div class="product"><img src="imagenes/arnes.jpeg"><h3>Arnés Acolchado</h3><p>Comodidad total</p><p class="precio">$45.000</p><a href="#" class="agregar-carrito btn-2" data-id="7">Agregar</a></div>
+            <div class="product"><img src="imagenes/juguete.jpeg"><h3>Juguete Interactivo</h3><p>Inteligencia felina</p><p class="precio">$28.000</p><a href="#" class="agregar-carrito btn-2" data-id="8">Agregar</a></div>
+        </div>
+
+        <!-- COMIDA -->
+        <div class="seccion-titulo" id="comida">Comida Premium</div>
+        <div class="products-content">
+            <div class="product"><img src="imagenes/birbogato.png"><h3>Birbo Gatos Adultos Blend</h3><p>Alimento premium para gatos adultos con mezcla de pollo, carne y pescado.</p><p class="precio">$30.000</p><a href="#" class="agregar-carrito btn-2" data-id="101">Agregar</a></div>
+            <div class="product"><img src="imagenes/birbo.jpg"><h3>Birbo Gatos Adultos Castrados Frutos del Mar</h3><p>Alimento premium con sabor a mariscos, formulado para gatos adultos esterilizados.</p><p class="precio">$40.000</p><a href="#" class="agregar-carrito btn-2" data-id="102">Agregar</a></div>
+            <div class="product"><img src="imagenes/miringoadulto.png"><h3>Mirringo +PRO Adulto</h3><p>Alimento para gatos adultos con 30% de proteína y cuidado urinario.</p><p class="precio">$25.000</p><a href="#" class="agregar-carrito btn-2" data-id="103">Agregar</a></div>
+            <div class="product"><img src="imagenes/nutrecanperro.png"><h3>Nutrecan Premium Cachorros Avena y Banano</h3><p>Alimento premium para cachorros con avena y banano para pieles sensibles.</p><p class="precio">$40.000</p><a href="#" class="agregar-carrito btn-2" data-id="104">Agregar</a></div>
+            <div class="product"><img src="imagenes/miringo.png"><h3>Mirringo Original Adulto</h3><p>Alimento para gatos adultos con 30% de proteína y buen sabor.</p><p class="precio">$20.000</p><a href="#" class="agregar-carrito btn-2" data-id="105">Agregar</a></div>
+            <div class="product"><img src="imagenes/chunky.jpg"><h3>Chunky Adulto Pollo</h3><p>Alimento para perros adultos de todas las razas, hecho con pollo.</p><p class="precio">45.000</p><a href="#" class="agregar-carrito btn-2" data-id="106">Agregar</a></div>
+            <div class="product"><img src="imagenes/donkan.png"><h3>Donkan Adultos Carne y Cereales</h3><p>Alimento para perros adultos que contribuye al mantenimiento óseo y muscular.</p><p class="precio">$22.000</p><a href="#" class="agregar-carrito btn-2" data-id="107">Agregar</a></div>
+            <div class="product"><img src="imagenes/nutrecan.jpg"><h3>Nutre Cat Adulto Salmón</h3><p>Alimento para gatos adultos con sabor a salmón.</p><p class="precio">$35.000</p><a href="#" class="agregar-carrito btn-2" data-id="108">Agregar</a></div>
+        </div>
+
+        <!-- ASEO -->
+        <div class="seccion-titulo" id="aseo" >Aseo y Cuidado</div>
+        <div class="products-content">
+            <div class="product"><img src="imagenes/shampoo.jpg"><h3>Shampoo Premium 500ml</h3><p>Hipoalergénico</p><p class="precio">$28.000</p><a href="#" class="agregar-carrito btn-2" data-id="201">Agregar</a></div>
+            <div class="product"><img src="imagenes/sepillopro.jpg"><h3>Cepillo Profesional</h3><p>Desenreda fácil</p><p class="precio">$22.000</p><a href="#" class="agregar-carrito btn-2" data-id="202">Agregar</a></div>
+            <div class="product"><img src="imagenes/6.png"><h3>Colonia para Perros</h3><p>Aroma fresco</p><p class="precio">$7.000</p><a href="#" class="agregar-carrito btn-2" data-id="203">Agregar</a></div>
+            <div class="product"><img src="imagenes/toallitas.png"><h3>Toallitas Húmedas x100</h3><p>Limpieza rápida</p><p class="precio">$15.000</p><a href="#" class="agregar-carrito btn-2" data-id="204">Agregar</a></div>
+            <div class="product"><img src="imagenes/cortauñas.png"><h3>Cortauñas Profesional</h3><p>Seguro y ergonómico</p><p class="precio">$25.000</p><a href="#" class="agregar-carrito btn-2" data-id="205">Agregar</a></div>
+            <div class="product"><img src="imagenes/pasta.jpg"><h3>Pasta Dental para perros y gatos</h3><p>Sabor pollo</p><p class="precio">$12.000</p><a href="#" class="agregar-carrito btn-2" data-id="206">Agregar</a></div>
+            <div class="product"><img src="imagenes/antipulgas.jpg"><h3>Peine Antipulgas</h3><p>Acero inoxidable</p><p class="precio">$16.000</p><a href="#" class="agregar-carrito btn-2" data-id="207">Agregar</a></div>
+            <div class="product"><img src="imagenes/shampoespuma.jpg"><h3>Champú Seco en Espuma</h3><p>Sin enjuague</p><p class="precio">$30.000</p><a href="#" class="agregar-carrito btn-2" data-id="208">Agregar</a></div>
+        </div>
+    </div>
+
+    <!-- TU SCRIPT.JS DEL INDEX -->
+    <script src="script.js"></script>
+
+    <!-- ANIMACIÓN DE ENTRADA -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.product').forEach((el, i) => {
+                setTimeout(() => el.classList.add('show'), i * 100);
+            });
+        });
+    </script>
+</body>
+</html>
