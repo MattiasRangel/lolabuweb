@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Poppins:wght@400;500;600;700;800&display=swap');
 
-/*
-font-family: 'Poppins', sans-serif;
-font-family: 'Oswald', sans-serif;
-*/
 .menu-icono {
     width: 20px;
     height: 20px;
@@ -34,7 +30,7 @@ img{
 .header{
     display: flex;
     align-items: center;
-    min-height: 80vh; /* usar min-height en lugar de min-width tan grande */
+    min-height: 80vh;
     background-color: #F5F5F5;
     padding: 70px 0;
     position: relative;
@@ -68,10 +64,9 @@ img{
 
 .menu .navbar ul {
     list-style: none;
-    display: flex;            /* esto es lo que faltaba para que se vea en línea en escritorio */
+    display: flex;
     gap: 20px;
 }
-
 
 .menu .navbar ul li {
     position: relative;
@@ -93,7 +88,6 @@ img{
 .menu-icono{
     width: 25px;;
 }
-
 
 .submenu {
     position: relative;
@@ -476,6 +470,5 @@ th, td{
         flex-direction: column;
         text-align: center;
     }
-
 
 }

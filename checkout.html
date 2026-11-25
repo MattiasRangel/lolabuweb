@@ -132,7 +132,6 @@
         return { productos: totalProductos, envio: esEnvio ? 8000 : 0 };
     }
 
-    // Inicializar
     calcularTotal();
 
     // 4. Listener para mostrar/ocultar dirección
@@ -160,7 +159,6 @@
         const barrio = document.getElementById('barrio').value.trim();
         const notas = document.getElementById('notas').value.trim();
 
-        // VALIDACIÓN IMPORTANTE: Si es domicilio, obligar a llenar dirección
         if (opcionEntrega === 'domicilio') {
             if (!dir || !barrio) {
                 return alert('Para envíos a domicilio, la Dirección y el Barrio son obligatorios.');
@@ -171,7 +169,6 @@
         const { productos, envio } = calcularTotal();
         const totalFinal = productos + envio;
 
-        // Construir Mensaje (Usamos \n para saltos de línea, es más limpio)
         let mensaje = `*¡NUEVO PEDIDO LOLA BU!*\n\n`;
         mensaje += `*Cliente:* ${nombre}\n`;
         mensaje += `*WhatsApp:* ${tel}\n`;
@@ -197,7 +194,6 @@
             mensaje += ` (Productos + $8.000 envío)`;
         }
 
-        // 6. ENVIAR (Usamos encodeURIComponent para que el # de la dirección no rompa el link)
         const numero = "3125378801"; 
         const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
         
